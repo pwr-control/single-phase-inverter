@@ -137,6 +137,3 @@ Simulink/**/slprj
 # Ignore Simulink cache files
 *.slxcache
 
-# Ignore Simulink code generation folders
-codegen/
-*.slx
