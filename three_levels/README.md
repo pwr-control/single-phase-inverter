@@ -53,7 +53,7 @@ lists the overrides at every run.
 |---|---|
 | `private/single_phase_inverter_hwdata.m` | hardware of the T-type inverter (DC link, LC filter, brake resistor; 690 V set: `udc_nom` = 1239 V, `CFi1` = `CFi2` = 12 mF, `LFu` = 500 µH, `CFu` = 200 µF): local copy of the library function, same numbers, returns the library object `hw_single_phase_inverter_setup` |
 | `private/library_setup.m` | adds the library to the path (clones it when missing); copy of the one of `solid-state-transformers`, without the `.git` folder on the path |
-| `private/check_ssc_from_library.m` | the Simscape models always come from the library: every non-MathWorks component of the model (`single_phase_transformer`, `lithium_ion_cell`, and `threephase_inductor`, `saturable_single_phase_transformer` in the commented parts) must resolve inside the library clone, otherwise the init stops with the list of the local copies to remove |
+| `private/check_ssc_from_library.m` | the Simscape models always come from the library: every non-MathWorks component of the model (`lithium_ion_cell` of the battery, `saturable_single_phase_transformer` of the output transformer, and `single_phase_transformer`, `threephase_inductor` in the commented grid emulator and AFE) must resolve inside the library clone, otherwise the init stops with the list of the local copies to remove |
 
 The `.ssc` files are never copied into `private/`: Simscape does not see package folders there, and a
 copy of a `+package` folder here or elsewhere on the path is caught by the check above.
