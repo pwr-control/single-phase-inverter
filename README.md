@@ -13,16 +13,23 @@ the normal regulation.
 - The companion [library](https://github.com/pwr-control/library) repository on the MATLAB
   path **with subfolders** (setup functions `init_environment`, `timing_setup`,
   `single_phase_inverter_hwdata`, `device_*_setup`; Simscape device models; C-Caller code).
+  `three_levels/init_model.m` adds it by itself (`three_levels/private/library_setup.m`): clone
+  the two repositories side by side (or set the environment variable `PWR_CONTROL_LIBRARY` to
+  the library folder); the library is cloned next to this repository when it is missing.
 
 ## How to use
 
 1. Run `init_model.m` in `two_levels/` or `three_levels/`: it sets timing, hardware data,
-   control gains and the device set, then opens the model.
+   control gains and the device set, then opens the model. In `three_levels/` everything is in
+   the struct `param` and the local parameterization of the model is in `three_levels/private`
+   (functions with the name of a library one take precedence over it, the rest comes from the
+   library; the Simscape models always come from the library): see its README.
 2. Simulate the `.slx`.
 3. Post-process with the scripts in the same folder. Results (`.mat`) and figures (EPS) are
    ignored by git.
 
-Main switches in `init_model.m`:
+Main switches in `init_model.m` (in `three_levels/` they are fields of `param`, e.g.
+`param.spinv.impl.use_single_phase_inverter_based_FHT`, `param.spinv.frequency_set`):
 
 - `use_single_phase_inverter_based_FHT / _SOGI / _PHSH` (and `_ccaller` variants) — which
   quadrature-signal generator feeds the virtual dq transformation, and whether it runs as a
@@ -40,6 +47,6 @@ Main switches in `init_model.m`:
 | Folder | Content |
 |---|---|
 | [`two_levels`](two_levels) | Two-level full-bridge inverter, `fPWM = 10 kHz`, runs at 50 / 80 / 400 Hz |
-| [`three_levels`](three_levels) | Three-level T-type inverter, `fPWM = 20 kHz`, MOSFET thermal model on, 400 Hz default |
+| [`three_levels`](three_levels) | Three-level T-type inverter, `fPWM = 20 kHz`, MOSFET thermal model on, 400 Hz default; `param` init with local parameterization in `private/` |
 
 Each folder has its own README.
